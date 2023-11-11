@@ -1,2 +1,2 @@
 # NitroAcademia
-Financial Acadeny
+Financial Academy
