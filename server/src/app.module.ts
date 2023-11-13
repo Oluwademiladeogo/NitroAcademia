@@ -8,6 +8,7 @@ import { CoursesController } from './courses/controller/courses/courses.controll
 import { CoursesService } from './services/courses/courses.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm/entities/Users';
+import { authHelper } from './helpers/auth.helper';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -28,6 +29,6 @@ import { User } from './typeorm/entities/Users';
     LoginController,
     CoursesController,
   ],
-  providers: [AppService, UsersService, CoursesService],
+  providers: [AppService, UsersService, CoursesService, authHelper],
 })
 export class AppModule {}
