@@ -5,7 +5,8 @@ export class authHelper {
     console.log(`You called the encrypt function with ${something}`);
     return something;
   }
-  async compare(something: string) {
+  async compare(something: string, somethingelse: string) {
     console.log(`You called the compare function with ${something}`);
+    return something;
   }
 }
