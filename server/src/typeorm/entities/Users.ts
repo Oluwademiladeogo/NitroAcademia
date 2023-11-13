@@ -1,9 +1,4 @@
-import {
-    ArrayOperator,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -17,8 +12,10 @@ export class User {
   number: string;
   @Column()
   password: string;
+  @Column({ nullable: true })
+  feedback: string;
   @Column()
   dateJoined: Date;
-  @Column({type: 'json', nullable: true})
-  courses: Array<string>; 
+  @Column({ type: 'json', nullable: true })
+  courses: Array<string>;
 }
