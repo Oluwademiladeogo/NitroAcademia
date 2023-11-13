@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Post,
+  Res,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -18,13 +19,14 @@ export class SignupController {
   ) {}
   @UsePipes(new ValidationPipe())
   @Post()
-  async signupUser(@Body() user: NewUserDto, res: Response) {
+  async signupUser(@Body() data: NewUserDto, @Res() res: Response) {
     const password = await this.authHelper.encrypt('this');
-    user.password = password;
-    user.dateJoined = new Date();
-    const found = await this.UsersService.findUserByEmail(user.email);
-    if(found) res.json({status: 400, message: "User already registered"})
-    await this.UsersService.createUser(user)
+    data.password = password;
+    data.dateJoined = new Date();
+    const user = await this.UsersService.findUserByEmail(data.email);
+    if (user[0])
+      return res.json({ status: 400, message: 'User already registered' });
+    await this.UsersService.createUser(data);
     res.json({ status: 200, message: 'User added successfully' });
   }
 }
