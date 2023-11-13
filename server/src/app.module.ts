@@ -6,10 +6,28 @@ import { UsersService } from './services/users/users.service';
 import { LoginController } from './login/controller/login/login.controller';
 import { CoursesController } from './courses/controller/courses/courses.controller';
 import { CoursesService } from './services/courses/courses.service';
-
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './typeorm/entities/Users';
 @Module({
-  imports: [],
-  controllers: [AppController, SignupController, LoginController, CoursesController],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: "localhost",
+      port: 3306,
+      username: "oluwademilade",
+      password: "Password123#@!",
+      database: "nitro_academia",
+      entities: [User],
+      synchronize: true,
+    }),
+    TypeOrmModule.forFeature([User])
+  ],
+  controllers: [
+    AppController,
+    SignupController,
+    LoginController,
+    CoursesController,
+  ],
   providers: [AppService, UsersService, CoursesService],
 })
 export class AppModule {}
