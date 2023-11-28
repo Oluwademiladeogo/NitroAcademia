@@ -12,6 +12,7 @@ import { authHelper } from './helpers/auth.helper';
 import { AuthService } from './auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './auth/local.strategy';
+import { sessionSerializer } from './auth/session.serialize';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -25,7 +26,7 @@ import { LocalStrategy } from './auth/local.strategy';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User]),
-    PassportModule,
+    PassportModule.register({ session: true }),
   ],
   controllers: [
     AppController,
@@ -41,6 +42,7 @@ import { LocalStrategy } from './auth/local.strategy';
     AuthService,
     UsersService,
     LocalStrategy,
+    sessionSerializer,
   ],
 })
 export class AppModule {}
