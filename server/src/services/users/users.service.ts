@@ -11,7 +11,11 @@ export class UsersService {
   async createUser(data: object) {
     await this.userRepository.save(data);
   }
-  async findUserByEmail(email:string){
-    return await this.userRepository.findBy({email: email})
+  async findUserByEmail(email: string) {
+    const user = await this.userRepository.findBy({ email: email });
+    if (user.length > 0) {
+      console.log(user);
+      return user;
+    }
   }
 }

@@ -1,5 +1,15 @@
-import { Body, Controller, Post, Res, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  Body,
+  Controller,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
+import { LocalAuthGuard } from 'src/auth/local.auth.guard';
 import { authHelper } from 'src/helpers/auth.helper';
 import { loginUserDto } from 'src/login/dtos/loginUser.dto';
 import { UsersService } from 'src/services/users/users.service';
@@ -10,13 +20,15 @@ export class LoginController {
     private UsersService: UsersService,
     private authHelper: authHelper,
   ) {}
+
   @UsePipes(new ValidationPipe())
+  @UseGuards(LocalAuthGuard)
   @Post()
-  async loginUser(@Body() data: loginUserDto, @Res() res: Response) {
-    const user: any = await this.UsersService.findUserByEmail(data.email);
-    const pw = await this.authHelper.compare(data.password, user.password);
-    if (!pw || !user[0])
-      return res.json({ status: 400, message: 'invalid email or password' });
-    res.json({ status: 200, message: 'User successfully logged in' });
+  async loginUser(
+    @Body() data: loginUserDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    res.status(200).json({ message: 'User successfully logged in' });
   }
 }
